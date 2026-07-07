@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNZ Motors - Yönetim Paneli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: '#f97316', dark: { bg: '#0a0a0a', card: '#171717', border: '#262626' } } } } }
+    </script>
+</head>
+<body class="bg-dark-bg text-gray-200 font-sans antialiased p-6 md:p-10">
+
+    <div class="max-w-7xl mx-auto flex justify-between items-center mb-10 border-b border-dark-border pb-6">
+        <h1 class="text-3xl font-extrabold tracking-widest text-brand">KNZ<span class="text-white">YÖNETİM</span></h1>
+        <a href="/" target="_blank" class="text-sm font-bold text-gray-400 hover:text-white transition-colors">Siteye Git ↗</a>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- SOL TARAF: ARAÇ YÖNETİMİ -->
+        <div class="space-y-6">
+            <div class="bg-dark-card border border-dark-border rounded-2xl p-6 shadow-2xl">
+                <h2 class="text-lg font-bold text-white mb-4">➕ Yeni Araç Ekle</h2>
+                <form id="addCarForm" class="space-y-3">
+                    <input type="text" id="brand" placeholder="Marka" required class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white outline-none text-sm focus:border-brand">
+                    <input type="text" id="model" placeholder="Model" required class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white outline-none text-sm focus:border-brand">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="number" id="horsepower" placeholder="HP" required class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white outline-none text-sm focus:border-brand">
+                        <input type="number" id="price_per_day" placeholder="Fiyat ($)" required class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white outline-none text-sm focus:border-brand">
+                    </div>
+                    <input type="text" id="image_url" placeholder="Fotoğraf URL" required class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white outline-none text-sm focus:border-brand">
+                    <button type="submit" class="w-full bg-brand text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition-colors">Kaydet</button>
+                </form>
+            </div>
+
+            <!-- FİLO LİSTESİ -->
+            <div class="bg-dark-card border border-dark-border rounded-2xl p-6 shadow-2xl h-64 overflow-y-auto">
+                <h2 class="text-lg font-bold text-white mb-4">🚘 Mevcut Filo</h2>
+                <ul id="admin-cars-list" class="space-y-3 text-sm"></ul>
+            </div>
+        </div>
+
+        <!-- SAĞ TARAF: REZERVASYONLAR TABLOSU -->
+        <div class="lg:col-span-2 bg-dark-card border border-dark-border rounded-2xl p-8 shadow-2xl overflow-hidden">
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center justify-between">
+                <span>📋 Gelen Rezervasyonlar</span>
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-xs uppercase text-gray-500 border-b border-dark-border">
+                            <th class="pb-3">Müşteri</th>
+                            <th class="pb-3">Araç</th>
+                            <th class="pb-3">Plaka</th>
+                            <th class="pb-3 text-right">Tutar</th>
+                            <th class="pb-3 text-center">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservations-tbody" class="text-sm"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { fetchReservations(); fetchAdminCars(); });
+
+        // ARAÇLARI GETİR VE LİSTELE
+        async function fetchAdminCars() {
+            const res = await fetch('/api/cars');
+            const cars = await res.json();
+            const list = document.getElementById('admin-cars-list');
+            list.innerHTML = '';
+            cars.forEach(car => {
+                list.innerHTML += `
+                    <li class="flex justify-between items-center bg-dark-bg p-3 rounded-lg border border-dark-border">
+                        <span>${car.brand} ${car.model}</span>
+                        <button onclick="deleteCar(${car.id})" class="text-red-500 hover:text-red-400 font-bold text-xs">Sil</button>
+                    </li>
+                `;
+            });
+        }
+
+        // ARAÇ SİL
+        async function deleteCar(id) {
+            if(confirm("Aracı ve bağlı rezervasyonlarını silmek istediğine emin misin?")) {
+                await fetch(`/api/cars/${id}`, { method: 'DELETE' });
+                fetchAdminCars(); fetchReservations();
+            }
+        }
+
+        // YENİ ARAÇ EKLE
+        document.getElementById('addCarForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = { brand: document.getElementById('brand').value, model: document.getElementById('model').value, horsepower: document.getElementById('horsepower').value, price_per_day: document.getElementById('price_per_day').value, image_url: document.getElementById('image_url').value };
+            await fetch('/api/cars', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
+            document.getElementById('addCarForm').reset();
+            fetchAdminCars();
+        });
+
+        // REZERVASYONLARI GETİR
+        async function fetchReservations() {
+            const res = await fetch('/api/reservations');
+            const data = await res.json();
+            const tbody = document.getElementById('reservations-tbody');
+            tbody.innerHTML = '';
+            data.forEach(r => {
+                tbody.innerHTML += `
+                    <tr class="border-b border-dark-border/50">
+                        <td class="py-4"><b>${r.full_name}</b><br><span class="text-xs text-gray-500">${r.email}</span></td>
+                        <td class="py-4">${r.brand} ${r.model}</td>
+                        <td class="py-4"><input type="text" id="plate-${r.res_id}" value="${r.custom_plate || ''}" class="bg-dark-bg text-brand px-2 py-1 rounded border border-dark-border text-xs w-24 outline-none"></td>
+                        <td class="py-4 text-right font-bold text-green-400">$${r.total_price}</td>
+                        <td class="py-4 text-center space-x-2">
+                            <button onclick="updatePlate(${r.res_id})" class="text-blue-400 hover:text-blue-300 text-xs font-bold">Kaydet</button>
+                            <button onclick="deleteRes(${r.res_id})" class="text-red-500 hover:text-red-400 text-xs font-bold">İptal Et</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // PLAKA GÜNCELLE
+        async function updatePlate(id) {
+            const newPlate = document.getElementById(`plate-${id}`).value;
+            await fetch(`/api/reservations/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ custom_plate: newPlate }) });
+            alert('Plaka güncellendi!');
+        }
+
+        // REZERVASYON SİL
+        async function deleteRes(id) {
+            if(confirm("Bu rezervasyonu iptal edip aracı tekrar müsait yapmak istiyor musun?")) {
+                await fetch(`/api/reservations/${id}`, { method: 'DELETE' });
+                fetchReservations();
+            }
+        }
+    </script>
+</body>
+</html>

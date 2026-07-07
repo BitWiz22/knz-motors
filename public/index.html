@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNZ Motors - Premium Deneyim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { DEFAULT: '#f97316', dark: '#ea580c' }, dark: { bg: '#0a0a0a', card: '#171717', border: '#262626' } } } }
+        }
+    </script>
+</head>
+<body class="bg-dark-bg text-gray-200 font-sans antialiased selection:bg-brand selection:text-white">
+
+    <header class="fixed w-full top-0 z-50 bg-dark-bg/80 backdrop-blur-md border-b border-dark-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <h1 class="text-3xl font-extrabold tracking-widest text-brand">KNZ<span class="text-white">MOTORS</span></h1>
+            <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide">
+                <a href="#3d-showroom" class="hover:text-brand transition-colors">3D SHOWROOM</a>
+                <a href="#fleet" class="hover:text-brand transition-colors">FİLOMUZ</a>
+                <a href="#features" class="hover:text-brand transition-colors">NEDEN BİZ?</a>
+                <a href="admin.html" target="_blank" class="text-brand/70 hover:text-brand transition-colors">[YÖNETİM]</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="pt-40 pb-20 px-6 text-center max-w-4xl mx-auto">
+        <h2 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-white">Gücü ve Lüksü <br><span class="text-brand">Yeniden Tanımla.</span></h2>
+        <p class="text-lg text-gray-400 mb-10 leading-relaxed">Özel koleksiyonumuzdaki premium araçlarla eşsiz bir sürüş deneyimine hazır olun. Sadece bir araç değil, statü kiralayın.</p>
+        <a href="#fleet" class="inline-block border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3 px-8 rounded-full transition-all">Hemen Keşfet</a>
+    </section>
+
+    <section id="3d-showroom" class="py-20 border-y border-dark-border bg-gradient-to-b from-dark-bg to-dark-card">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <div class="text-brand text-sm font-black tracking-widest uppercase mb-2">Dijital Garaj</div>
+                <h2 class="text-4xl font-bold text-white mb-6">Aracınızı 360° İnceleyin</h2>
+                <p class="text-gray-400 mb-6 leading-relaxed">Detaylara önem veriyoruz. Galerimize gelmeden önce öne çıkan araçlarımızı 3D modelleme teknolojisi ile her açıdan inceleyin. Yakınlaştırın, döndürün ve hatlarını hissedin.</p>
+            </div>
+            <div class="md:w-1/2 w-full h-[400px] bg-dark-bg rounded-2xl border border-dark-border overflow-hidden relative shadow-[0_0_30px_rgba(249,115,22,0.1)]">
+                <!-- Google Model Viewer (Evrensel Araç Modeli) -->
+<model-viewer 
+    src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Buggy/glTF-Binary/Buggy.glb" 
+    alt="3D Spor Araç" 
+    auto-rotate 
+    rotation-per-second="30deg"
+    camera-controls 
+    shadow-intensity="1.5" 
+    exposure="1.2"
+    environment-image="neutral" 
+    class="w-full h-full outline-none bg-gradient-to-tr from-dark-card to-dark-bg">
+    <div slot="poster" class="absolute inset-0 flex items-center justify-center text-brand animate-pulse font-bold tracking-widest">GARAJ YÜKLENİYOR...</div>
+</model-viewer>
+                </div>
+        </div>
+    </section>
+
+    <section id="fleet" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4">Seçkin Filomuz</h2>
+                <p class="text-gray-400">Gerçek zamanlı müsaitlik ve dinamik fiyatlandırma.</p>
+            </div>
+            <div id="fleet-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-dark-card border-t border-dark-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div>
+                    <div class="w-16 h-16 mx-auto bg-brand/10 text-brand rounded-full flex items-center justify-center text-2xl mb-6">🛡️</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Üst Düzey Güvenlik</h3>
+                    <p class="text-gray-400 text-sm">Tüm araçlarımız yetkili servis bakımlı olup, her kiralama öncesi 42 noktalı güvenlik testinden geçirilir.</p>
+                </div>
+                <div>
+                    <div class="w-16 h-16 mx-auto bg-brand/10 text-brand rounded-full flex items-center justify-center text-2xl mb-6">⚡</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Anında Teslimat</h3>
+                    <p class="text-gray-400 text-sm">Uzun prosedürleri atlayın. VIP vale hizmetimizle aracınızı istediğiniz lokasyona 30 dakika içinde teslim ediyoruz.</p>
+                </div>
+                <div>
+                    <div class="w-16 h-16 mx-auto bg-brand/10 text-brand rounded-full flex items-center justify-center text-2xl mb-6">💎</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Kişiselleştirilmiş Deneyim</h3>
+                    <p class="text-gray-400 text-sm">Özel plaka seçeneği, favori içeceğiniz ve kişisel asistan hizmeti ile sürüşü bir yaşam tarzına dönüştürün.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="rentalModal" class="fixed inset-0 z-[100] hidden bg-black/80 backdrop-blur-sm items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-dark-card border border-dark-border rounded-2xl w-full max-w-md p-8 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContent">
+            <button onclick="closeModal()" class="absolute top-4 right-5 text-gray-400 hover:text-white text-2xl transition-colors">&times;</button>
+            <h2 id="modalCarName" class="text-2xl font-bold text-white mb-6 border-b border-dark-border pb-4">Araç Kirala</h2>
+            <form id="rentalForm" class="space-y-5">
+                <input type="hidden" id="selectedCarId">
+                <input type="hidden" id="selectedCarPrice">
+                <div class="space-y-4">
+                    <input type="text" id="custName" placeholder="Adınız Soyadınız" required class="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand transition-colors">
+                    <input type="email" id="custEmail" placeholder="E-posta Adresiniz" required class="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand transition-colors">
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-1/2">
+                        <label class="text-xs text-gray-500 mb-1 block uppercase tracking-wider">Alış</label>
+                        <input type="date" id="startDate" required onchange="calculatePrice()" class="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand transition-colors [color-scheme:dark]">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-xs text-gray-500 mb-1 block uppercase tracking-wider">Teslim</label>
+                        <input type="date" id="endDate" required onchange="calculatePrice()" class="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand transition-colors [color-scheme:dark]">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 mb-1 block uppercase tracking-wider">Özel Plaka (Opsiyonel)</label>
+                    <input type="text" id="customPlate" placeholder="Örn: 34 KNZ 01" class="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-3 text-brand font-bold focus:outline-none focus:border-brand transition-colors">
+                </div>
+                <div class="bg-brand/10 border border-brand/20 rounded-xl p-4 text-center mt-6">
+                    <span class="text-sm text-brand font-medium">Toplam Tutar</span><br>
+                    <span id="totalPriceDisplay" class="text-3xl font-bold text-white">$0</span>
+                </div>
+                <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] mt-4">Rezervasyonu Onayla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ARAÇ DETAY MODALI -->
+    <!-- ARAÇ DETAY MODALI (PREMIUM BROŞÜR) -->
+    <div id="detailsModal" class="fixed inset-0 z-[110] hidden bg-black/90 backdrop-blur-md items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-dark-card border border-dark-border rounded-2xl w-full max-w-5xl p-0 shadow-2xl relative transform scale-95 transition-transform duration-300 overflow-hidden flex flex-col md:flex-row" id="detailsModalContent">
+            
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-5 text-white/70 hover:text-white hover:rotate-90 text-4xl transition-all z-20 drop-shadow-md">&times;</button>
+            
+            <!-- Sol Taraf: Görsel ve Fiyat Rozeti -->
+            <div class="w-full md:w-1/2 h-72 md:h-auto relative overflow-hidden group">
+                <img id="detImg" src="" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-card via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-dark-card"></div>
+                <!-- Fiyat Rozeti -->
+                <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl">
+                    <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">Günlük Kiralama</div>
+                    <div id="detPrice" class="text-3xl font-black text-green-400 font-mono"></div>
+                </div>
+            </div>
+            
+            <!-- Sağ Taraf: Detaylı Teknik Özellikler -->
+            <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-dark-card relative">
+                <!-- Arkaplan Filigranı -->
+                <div id="detBrandWatermark" class="absolute top-10 right-10 text-8xl font-black text-white/[0.03] select-none uppercase tracking-tighter"></div>
+
+                <div id="detBrand" class="text-brand text-sm font-black tracking-widest uppercase mb-1 relative z-10"></div>
+                <h2 id="detModel" class="text-4xl md:text-5xl font-extrabold text-white mb-6 relative z-10 tracking-tight"></h2>
+                
+                <p class="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-brand pl-4">
+                    Mühendislik harikası aerodinamik tasarımı ve üstün yol tutuş dinamikleriyle, sadece bir yerden bir yere gitmezsiniz; yola hükmedersiniz. Sınırları zorlayan performansı deneyimleyin.
+                </p>
+                
+                <!-- Teknik Veri Grid (API'den veya DB'den gelecek veriler için hazırlandı) -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-dark-bg p-4 rounded-xl border border-dark-border flex items-center gap-4 hover:border-brand/50 transition-colors">
+                        <div class="text-3xl">⚙️</div>
+                        <div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">Motor Gücü</div>
+                            <div id="detHp" class="text-lg font-bold text-white"></div>
+                        </div>
+                    </div>
+                    <div class="bg-dark-bg p-4 rounded-xl border border-dark-border flex items-center gap-4 hover:border-brand/50 transition-colors">
+                        <div class="text-3xl">🚀</div>
+                        <div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">0-100 km/s</div>
+                            <div id="det0to100" class="text-lg font-bold text-white">3.2 sn</div>
+                        </div>
+                    </div>
+                    <div class="bg-dark-bg p-4 rounded-xl border border-dark-border flex items-center gap-4 hover:border-brand/50 transition-colors">
+                        <div class="text-3xl">🏎️</div>
+                        <div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">Maksimum Hız</div>
+                            <div id="detTopSpeed" class="text-lg font-bold text-white">305 km/s</div>
+                        </div>
+                    </div>
+                    <div class="bg-dark-bg p-4 rounded-xl border border-dark-border flex items-center gap-4 hover:border-brand/50 transition-colors">
+                        <div class="text-3xl">🕹️</div>
+                        <div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">Şanzıman</div>
+                            <div id="detTransmission" class="text-lg font-bold text-white">Otomatik</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="detRentBtn" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] relative z-10 flex items-center justify-center gap-2">
+                    <span>Hemen Rezerve Et</span>
+                    <span class="text-xl">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let globalCars = []; // Araçları hafızada tutmak için
+
+        document.addEventListener('DOMContentLoaded', fetchCars);
+
+        async function fetchCars() {
+            try {
+                const response = await fetch('/api/cars');
+                globalCars = await response.json(); // Gelen araçları global değişkene kaydet
+                const container = document.getElementById('fleet-container');
+                container.innerHTML = '';
+                
+                globalCars.forEach(car => {
+                    const isAvail = car.is_available;
+                    const carCard = `
+                        <div class="group bg-dark-card border border-dark-border rounded-2xl overflow-hidden hover:border-brand/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-brand/10 flex flex-col">
+                            <div class="relative h-56 overflow-hidden bg-dark-bg cursor-pointer" onclick="openDetailsModal(${car.id})">
+                                <img src="${car.image_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute top-4 right-4 ${isAvail ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'} border px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md">
+                                    ${isAvail ? 'MÜSAİT' : 'KİRADA'}
+                                </div>
+                            </div>
+                            <div class="p-6 flex flex-col flex-grow">
+                                <div class="text-brand text-xs font-black tracking-widest uppercase mb-1">${car.brand}</div>
+                                <h3 class="text-2xl font-bold text-white mb-4 cursor-pointer hover:text-brand transition-colors" onclick="openDetailsModal(${car.id})">${car.model}</h3>
+                                
+                                <button onclick="openDetailsModal(${car.id})" class="block w-full text-center text-sm text-gray-400 hover:text-white transition-colors mb-4">
+                                    🔍 Tüm Özellikleri İncele
+                                </button>
+
+                                <button onclick="openRentModal(${car.id}, '${car.brand}', '${car.model}', ${car.price_per_day})" 
+                                        ${!isAvail ? 'disabled' : ''} 
+                                        class="mt-auto w-full py-3 rounded-xl font-bold transition-all ${isAvail ? 'bg-white text-black hover:bg-brand hover:text-white' : 'bg-dark-border text-gray-500 cursor-not-allowed'}">
+                                    ${isAvail ? 'Şimdi Kirala' : 'Rezerve Edildi'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += carCard;
+                });
+            } catch (error) {
+                document.getElementById('fleet-container').innerHTML = "<p class='text-red-500'>Sisteme bağlanılamadı.</p>";
+            }
+        }
+
+        /* --- DETAY MODALI FONKSİYONLARI --- */
+        /* --- DETAY MODALI FONKSİYONLARI --- */
+        function openDetailsModal(id) {
+            const car = globalCars.find(c => c.id === id);
+            if(!car) return;
+
+            // Arka plan filigranı
+            document.getElementById('detBrandWatermark').innerText = car.brand;
+
+            // Modal içini doldur
+            document.getElementById('detImg').src = car.image_url;
+            document.getElementById('detBrand').innerText = car.brand;
+            document.getElementById('detModel').innerText = car.model;
+            document.getElementById('detHp').innerText = car.horsepower + ' HP';
+            document.getElementById('detPrice').innerText = '$' + car.price_per_day;
+            
+            // YENİ EKLENEN BOT VERİLERİ
+            document.getElementById('det0to100').innerText = car.zero_to_hundred || 'Belirtilmedi';
+            document.getElementById('detTopSpeed').innerText = car.top_speed || 'Belirtilmedi';
+            document.getElementById('detTransmission').innerText = car.transmission || 'Otomatik';
+
+            const rentBtn = document.getElementById('detRentBtn');
+            if(car.is_available) {
+                rentBtn.innerHTML = '<span>Hemen Rezerve Et</span><span class="text-xl">→</span>';
+                rentBtn.className = 'w-full bg-brand hover:bg-brand-dark text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] relative z-10 flex items-center justify-center gap-2';
+                rentBtn.disabled = false;
+                rentBtn.onclick = () => {
+                    closeDetailsModal();
+                    openRentModal(car.id, car.brand, car.model, car.price_per_day);
+                };
+            } else {
+                rentBtn.innerHTML = 'Şu An Kirada';
+                rentBtn.className = 'w-full bg-dark-border text-gray-500 font-bold py-4 rounded-xl cursor-not-allowed relative z-10';
+                rentBtn.disabled = true;
+                rentBtn.onclick = null;
+            }
+
+            // Modalı göster
+            const modal = document.getElementById('detailsModal');
+            const content = document.getElementById('detailsModalContent');
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.remove('opacity-0'); content.classList.remove('scale-95'); }, 10);
+        }
+
+        function closeDetailsModal() {
+            const modal = document.getElementById('detailsModal');
+            const content = document.getElementById('detailsModalContent');
+            modal.classList.add('opacity-0'); content.classList.add('scale-95');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
+        /* --- KİRALAMA MODALI FONKSİYONLARI --- */
+        const rentModal = document.getElementById('rentalModal');
+        const rentModalContent = document.getElementById('modalContent');
+
+        function openRentModal(carId, brand, model, price) {
+            rentModal.style.display = 'flex';
+            setTimeout(() => { rentModal.classList.remove('opacity-0'); rentModalContent.classList.remove('scale-95'); }, 10);
+            
+            document.getElementById('modalCarName').innerText = brand + ' ' + model;
+            document.getElementById('selectedCarId').value = carId;
+            document.getElementById('selectedCarPrice').value = price;
+            
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('totalPriceDisplay').innerText = '$0';
+        }
+
+        function closeModal() {
+            rentModal.classList.add('opacity-0'); rentModalContent.classList.add('scale-95');
+            setTimeout(() => { rentModal.style.display = 'none'; }, 300);
+        }
+
+        function calculatePrice() {
+            const start = new Date(document.getElementById('startDate').value);
+            const end = new Date(document.getElementById('endDate').value);
+            const pricePerDay = parseFloat(document.getElementById('selectedCarPrice').value);
+            
+            if(start && end && end >= start) {
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                const total = diffDays * pricePerDay;
+                
+                document.getElementById('totalPriceDisplay').innerText = '$' + total.toLocaleString();
+                document.getElementById('rentalForm').dataset.total = total;
+            } else {
+                document.getElementById('totalPriceDisplay').innerText = '$0';
+            }
+        }
+
+        document.getElementById('rentalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                car_id: document.getElementById('selectedCarId').value,
+                full_name: document.getElementById('custName').value,
+                email: document.getElementById('custEmail').value,
+                phone: "Müşteri paneli eklenecek", 
+                start_date: document.getElementById('startDate').value,
+                end_date: document.getElementById('endDate').value,
+                total_price: document.getElementById('rentalForm').dataset.total,
+                custom_plate: document.getElementById('customPlate').value
+            };
+
+            const response = await fetch('/api/reservations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if(response.ok) {
+                closeModal();
+                setTimeout(() => {
+                    alert("Rezervasyon Onaylandı! 🚀 Araç filomuzdan sizin için ayrıldı.");
+                    location.reload(); 
+                }, 300);
+            }
+        });
+    </script>
+    
+</body>
+</html>
