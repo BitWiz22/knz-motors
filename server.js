@@ -131,12 +131,12 @@ app.get('/api/cars', async (req, res) => {
     }
 });
 
-// YENİ REZERVASYON OLUŞTURMA (KURŞUN GEÇİRMEZ VERSİYON 🚀)
+// YENİ REZERVASYON OLUŞTURMA (MAKASLI, KURŞUN GEÇİRMEZ VERSİYON 🚀)
 app.post('/api/reservations', async (req, res) => {
     try {
         let { car_id, full_name, email, phone, start_date, end_date, total_price, custom_plate } = req.body;
 
-        // 1. Tarihleri Postgres'in anladığı (YYYY-MM-DD) formata zorla çevir
+        // 1. Tarihleri Postgres'in anladığı formata zorla
         const formatla = (tarih) => {
             if (!tarih) return null;
             if (tarih.includes('.')) {
@@ -145,15 +145,15 @@ app.post('/api/reservations', async (req, res) => {
             }
             return tarih;
         };
-        const gercekBaslangic = formatla(start_date);
-        const gercekBitis = formatla(end_date);
-
-        // 2. Fiyatı temizle (Sadece sayılar kalsın)
+        
+        // 2. Fiyatı temizle (Sadece sayılar)
         const temizFiyat = Number(String(total_price).replace(/[^0-9.-]+/g, "")) || 0;
         
-        // 3. Eksik veriler için güvenlik ağları
-        const guvenliTelefon = phone || 'Belirtilmedi';
-        const guvenliAracId = car_id || 1; // Arayüzden ID gelmezse çökmesin diye 1 yap
+        // 3. İŞTE HAYAT KURTARAN MAKAS SATIRLARI (Hata Veren Yer Burasıydı!)
+        // Eğer frontend telefona 28 harfli bir şey yollarsa, ilk 20 harfini alıp gerisini çöpe atıyoruz!
+        const guvenliTelefon = String(phone || 'Belirtilmedi').substring(0, 20);
+        const guvenliPlaka = String(custom_plate || '').substring(0, 50);
+        const guvenliAracId = car_id || 1;
 
         // 4. Müşteriyi bul veya oluştur
         let userResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
@@ -171,7 +171,7 @@ app.post('/api/reservations', async (req, res) => {
         // 5. Rezervasyonu Çak
         await pool.query(
             'INSERT INTO reservations (car_id, user_id, start_date, end_date, total_price, custom_plate) VALUES ($1, $2, $3, $4, $5, $6)',
-            [guvenliAracId, user_id, gercekBaslangic, gercekBitis, temizFiyat, custom_plate || '']
+            [guvenliAracId, user_id, formatla(start_date), formatla(end_date), temizFiyat, guvenliPlaka]
         );
         
         // 6. Aracı kirada olarak işaretle
@@ -179,7 +179,7 @@ app.post('/api/reservations', async (req, res) => {
         
         res.status(201).json({ message: "Rezervasyon başarıyla tamamlandı!" });
     } catch (err) {
-        // HATA OLURSA RENDER'I SİKTİR ET, DİREKT TARAYICIYA GÖNDER!
+        console.error("Hata:", err.message);
         res.status(500).json({ error: "SİSTEM HATASI: " + err.message });
     }
 });
