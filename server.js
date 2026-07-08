@@ -132,12 +132,20 @@ app.get('/api/cars', async (req, res) => {
 });
 
 // YENİ REZERVASYON (KİRALAMA) OLUŞTURMA
+// YENİ REZERVASYON (KİRALAMA) OLUŞTURMA (Hatalar Giderildi 🚀)
 app.post('/api/reservations', async (req, res) => {
     // Formdan gelen verileri alıyoruz
-    const { car_id, full_name, email, phone, start_date, end_date, total_price, custom_plate } = req.body;
+    let { car_id, full_name, email, phone, start_date, end_date, total_price, custom_plate } = req.body;
     
     try {
-        // 1. Önce müşteriyi veritabanında ara (Email'e göre)
+        // 1. HAYAT KURTARAN DOKUNUŞ: Fiyatı temizle (Sadece rakamlar kalsın)
+        // "$7.480.000" -> 7480000 formatına çevrilir
+        const cleanPrice = Number(String(total_price).replace(/[^0-9.-]+/g, ""));
+        
+        // 2. Formda telefon yoksa null düşmemesi için varsayılan değer ata
+        const safePhone = phone || 'Belirtilmedi';
+
+        // 3. Önce müşteriyi veritabanında ara (Email'e göre)
         let userResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
         let user_id;
         
@@ -145,7 +153,7 @@ app.post('/api/reservations', async (req, res) => {
         if (userResult.rows.length === 0) {
             const newUser = await pool.query(
                 'INSERT INTO users (full_name, email, phone) VALUES ($1, $2, $3) RETURNING id',
-                [full_name, email, phone]
+                [full_name, email, safePhone]
             );
             user_id = newUser.rows[0].id;
         } else {
@@ -153,13 +161,13 @@ app.post('/api/reservations', async (req, res) => {
             user_id = userResult.rows[0].id;
         }
 
-        // 2. Rezervasyonu oluştur ve Özel Plakayı kaydet
+        // 4. Rezervasyonu oluştur (temizlenmiş cleanPrice'ı kullanıyoruz)
         const newRes = await pool.query(
             'INSERT INTO reservations (car_id, user_id, start_date, end_date, total_price, custom_plate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [car_id, user_id, start_date, end_date, total_price, custom_plate]
+            [car_id, user_id, start_date, end_date, cleanPrice, custom_plate]
         );
         
-        // 3. Aracı "Kirada" olarak güncelle (Müsaitliği kapat)
+        // 5. Aracı "Kirada" olarak güncelle (Müsaitliği kapat)
         await pool.query('UPDATE cars SET is_available = false WHERE id = $1', [car_id]);
         
         res.status(201).json({ message: "Rezervasyon başarıyla tamamlandı!" });
