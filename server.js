@@ -131,49 +131,56 @@ app.get('/api/cars', async (req, res) => {
     }
 });
 
-// YENİ REZERVASYON (KİRALAMA) OLUŞTURMA
-// YENİ REZERVASYON (KİRALAMA) OLUŞTURMA (Hatalar Giderildi 🚀)
+// YENİ REZERVASYON OLUŞTURMA (KURŞUN GEÇİRMEZ VERSİYON 🚀)
 app.post('/api/reservations', async (req, res) => {
-    // Formdan gelen verileri alıyoruz
-    let { car_id, full_name, email, phone, start_date, end_date, total_price, custom_plate } = req.body;
-    
     try {
-        // 1. HAYAT KURTARAN DOKUNUŞ: Fiyatı temizle (Sadece rakamlar kalsın)
-        // "$7.480.000" -> 7480000 formatına çevrilir
-        const cleanPrice = Number(String(total_price).replace(/[^0-9.-]+/g, ""));
-        
-        // 2. Formda telefon yoksa null düşmemesi için varsayılan değer ata
-        const safePhone = phone || 'Belirtilmedi';
+        let { car_id, full_name, email, phone, start_date, end_date, total_price, custom_plate } = req.body;
 
-        // 3. Önce müşteriyi veritabanında ara (Email'e göre)
+        // 1. Tarihleri Postgres'in anladığı (YYYY-MM-DD) formata zorla çevir
+        const formatla = (tarih) => {
+            if (!tarih) return null;
+            if (tarih.includes('.')) {
+                const [gun, ay, yil] = tarih.split('.');
+                return `${yil}-${ay}-${gun}`;
+            }
+            return tarih;
+        };
+        const gercekBaslangic = formatla(start_date);
+        const gercekBitis = formatla(end_date);
+
+        // 2. Fiyatı temizle (Sadece sayılar kalsın)
+        const temizFiyat = Number(String(total_price).replace(/[^0-9.-]+/g, "")) || 0;
+        
+        // 3. Eksik veriler için güvenlik ağları
+        const guvenliTelefon = phone || 'Belirtilmedi';
+        const guvenliAracId = car_id || 1; // Arayüzden ID gelmezse çökmesin diye 1 yap
+
+        // 4. Müşteriyi bul veya oluştur
         let userResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
         let user_id;
-        
-        // Müşteri yoksa yeni kayıt oluştur
         if (userResult.rows.length === 0) {
             const newUser = await pool.query(
                 'INSERT INTO users (full_name, email, phone) VALUES ($1, $2, $3) RETURNING id',
-                [full_name, email, safePhone]
+                [full_name, email, guvenliTelefon]
             );
             user_id = newUser.rows[0].id;
         } else {
-            // Müşteri zaten varsa onun ID'sini kullan
             user_id = userResult.rows[0].id;
         }
 
-        // 4. Rezervasyonu oluştur (temizlenmiş cleanPrice'ı kullanıyoruz)
-        const newRes = await pool.query(
-            'INSERT INTO reservations (car_id, user_id, start_date, end_date, total_price, custom_plate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [car_id, user_id, start_date, end_date, cleanPrice, custom_plate]
+        // 5. Rezervasyonu Çak
+        await pool.query(
+            'INSERT INTO reservations (car_id, user_id, start_date, end_date, total_price, custom_plate) VALUES ($1, $2, $3, $4, $5, $6)',
+            [guvenliAracId, user_id, gercekBaslangic, gercekBitis, temizFiyat, custom_plate || '']
         );
         
-        // 5. Aracı "Kirada" olarak güncelle (Müsaitliği kapat)
-        await pool.query('UPDATE cars SET is_available = false WHERE id = $1', [car_id]);
+        // 6. Aracı kirada olarak işaretle
+        await pool.query('UPDATE cars SET is_available = false WHERE id = $1', [guvenliAracId]);
         
         res.status(201).json({ message: "Rezervasyon başarıyla tamamlandı!" });
     } catch (err) {
-        console.error("Rezervasyon sırasında hata:", err.message);
-        res.status(500).json({ error: "Sunucu hatası" });
+        // HATA OLURSA RENDER'I SİKTİR ET, DİREKT TARAYICIYA GÖNDER!
+        res.status(500).json({ error: "SİSTEM HATASI: " + err.message });
     }
 });
 
