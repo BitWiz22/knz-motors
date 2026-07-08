@@ -20,6 +20,47 @@ const pool = new Pool({
   }
 });
 
+// Tabloları otomatik oluşturma kodu (Mevcut pool kodunun altına yapıştır)
+const createTablesQuery = `
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(20)
+  );
+
+  CREATE TABLE IF NOT EXISTS cars (
+    id SERIAL PRIMARY KEY,
+    brand VARCHAR(50),
+    model VARCHAR(50),
+    horsepower INT,
+    image_url TEXT,
+    is_available BOOLEAN DEFAULT true,
+    price_per_day NUMERIC,
+    top_speed VARCHAR(20),
+    transmission VARCHAR(50),
+    zero_to_hundred VARCHAR(20)
+  );
+
+  CREATE TABLE IF NOT EXISTS reservations (
+    id SERIAL PRIMARY KEY,
+    car_id INT,
+    user_id INT,
+    start_date DATE,
+    end_date DATE,
+    total_price NUMERIC,
+    custom_plate VARCHAR(50)
+  );
+`;
+
+pool.query(createTablesQuery, (err, res) => {
+  if (err) {
+    console.error("Tablolar oluşturulurken hata:", err);
+  } else {
+    console.log("Tüm Tablolar (Cars, Users, Reservations) Hazır! 😎🚀");
+  }
+});
+
 // --- OTOMATİK VERİ ZENGİNLEŞTİRME (MOCK API) ---
 function fetchCarSpecsFromAPI(brand, model) {
     // Bu kısım gerçek dünyada dışarıya fetch() atılan yerdir. 
